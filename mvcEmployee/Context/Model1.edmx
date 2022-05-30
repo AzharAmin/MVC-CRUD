@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="emplDetails">
+          <Key>
+            <PropertyRef Name="empId" />
+          </Key>
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="empId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="birthDate" Type="date" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="employementDate" Type="date" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="city" Type="nvarchar" MaxLength="50" />
+          <Property Name="state" Type="nvarchar" MaxLength="50" />
+          <Property Name="country" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="emplPayroll">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="basicSalary" Type="money" />
+          <Property Name="TA" Type="money" />
+          <Property Name="DA" Type="money" />
+          <Property Name="bonus" Type="money" />
+          <Property Name="empId" Type="int" />
+        </EntityType>
+        <EntityType Name="emplSkills">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empId" Type="int" />
+          <Property Name="skills" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_emplPayroll_emplDetails">
+          <End Role="emplDetails" Type="Self.emplDetails" Multiplicity="0..1" />
+          <End Role="emplPayroll" Type="Self.emplPayroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emplDetails">
+              <PropertyRef Name="empId" />
+            </Principal>
+            <Dependent Role="emplPayroll">
+              <PropertyRef Name="empId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_emplSkills_emplDetails">
+          <End Role="emplDetails" Type="Self.emplDetails" Multiplicity="0..1" />
+          <End Role="emplSkills" Type="Self.emplSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emplDetails">
+              <PropertyRef Name="empId" />
+            </Principal>
+            <Dependent Role="emplSkills">
+              <PropertyRef Name="empId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="employeeModelStoreContainer">
+          <EntitySet Name="emplDetails" EntityType="Self.emplDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emplPayroll" EntityType="Self.emplPayroll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emplSkills" EntityType="Self.emplSkills" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_emplPayroll_emplDetails" Association="Self.FK_emplPayroll_emplDetails">
+            <End Role="emplDetails" EntitySet="emplDetails" />
+            <End Role="emplPayroll" EntitySet="emplPayroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_emplSkills_emplDetails" Association="Self.FK_emplSkills_emplDetails">
+            <End Role="emplDetails" EntitySet="emplDetails" />
+            <End Role="emplSkills" EntitySet="emplSkills" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="employeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="emplDetail">
+          <Key>
+            <PropertyRef Name="empId" />
+          </Key>
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="empId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="birthDate" Type="DateTime" Precision="0" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="employementDate" Type="DateTime" Precision="0" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="emplPayrolls" Relationship="Self.FK_emplPayroll_emplDetails" FromRole="emplDetails" ToRole="emplPayroll" />
+          <NavigationProperty Name="emplSkills" Relationship="Self.FK_emplSkills_emplDetails" FromRole="emplDetails" ToRole="emplSkills" />
+        </EntityType>
+        <EntityType Name="emplPayroll">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="basicSalary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="bonus" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="empId" Type="Int32" />
+          <NavigationProperty Name="emplDetail" Relationship="Self.FK_emplPayroll_emplDetails" FromRole="emplPayroll" ToRole="emplDetails" />
+        </EntityType>
+        <EntityType Name="emplSkill">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empId" Type="Int32" />
+          <Property Name="skills" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="emplDetail" Relationship="Self.FK_emplSkills_emplDetails" FromRole="emplSkills" ToRole="emplDetails" />
+        </EntityType>
+        <Association Name="FK_emplPayroll_emplDetails">
+          <End Role="emplDetails" Type="Self.emplDetail" Multiplicity="0..1" />
+          <End Role="emplPayroll" Type="Self.emplPayroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emplDetails">
+              <PropertyRef Name="empId" />
+            </Principal>
+            <Dependent Role="emplPayroll">
+              <PropertyRef Name="empId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_emplSkills_emplDetails">
+          <End Role="emplDetails" Type="Self.emplDetail" Multiplicity="0..1" />
+          <End Role="emplSkills" Type="Self.emplSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emplDetails">
+              <PropertyRef Name="empId" />
+            </Principal>
+            <Dependent Role="emplSkills">
+              <PropertyRef Name="empId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="employeeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="emplDetails" EntityType="Self.emplDetail" />
+          <EntitySet Name="emplPayrolls" EntityType="Self.emplPayroll" />
+          <EntitySet Name="emplSkills" EntityType="Self.emplSkill" />
+          <AssociationSet Name="FK_emplPayroll_emplDetails" Association="Self.FK_emplPayroll_emplDetails">
+            <End Role="emplDetails" EntitySet="emplDetails" />
+            <End Role="emplPayroll" EntitySet="emplPayrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_emplSkills_emplDetails" Association="Self.FK_emplSkills_emplDetails">
+            <End Role="emplDetails" EntitySet="emplDetails" />
+            <End Role="emplSkills" EntitySet="emplSkills" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="employeeModelStoreContainer" CdmEntityContainer="employeeEntities">
+          <EntitySetMapping Name="emplDetails">
+            <EntityTypeMapping TypeName="employeeModel.emplDetail">
+              <MappingFragment StoreEntitySet="emplDetails">
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="empId" ColumnName="empId" />
+                <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="employementDate" ColumnName="employementDate" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emplPayrolls">
+            <EntityTypeMapping TypeName="employeeModel.emplPayroll">
+              <MappingFragment StoreEntitySet="emplPayroll">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="basicSalary" ColumnName="basicSalary" />
+                <ScalarProperty Name="TA" ColumnName="TA" />
+                <ScalarProperty Name="DA" ColumnName="DA" />
+                <ScalarProperty Name="bonus" ColumnName="bonus" />
+                <ScalarProperty Name="empId" ColumnName="empId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emplSkills">
+            <EntityTypeMapping TypeName="employeeModel.emplSkill">
+              <MappingFragment StoreEntitySet="emplSkills">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="empId" ColumnName="empId" />
+                <ScalarProperty Name="skills" ColumnName="skills" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

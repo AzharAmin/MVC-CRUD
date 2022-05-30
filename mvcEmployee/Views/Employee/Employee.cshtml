@@ -1,0 +1,76 @@
+﻿@model mvcEmployee.Context.emplDetail
+@{
+    ViewBag.Title = "Employee";
+}
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+@using (Html.BeginForm("AddEmployee", "Employee", FormMethod.Post))
+{
+    <div class="container">
+        <div class="form-group">
+            @Html.HiddenFor(x => x.empId)
+            <label>First Name</label>
+            @Html.ValidationMessageFor(x => x.firstName, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.firstName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            @Html.ValidationMessageFor(x => x.lastName, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.lastName, new { @class = "form-control" })
+        </div>
+       
+        <div class="form-group">
+            <label>Birth Date</label>
+            @Html.ValidationMessageFor(x => x.birthDate, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.birthDate, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            @Html.ValidationMessageFor(x => x.email, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.email, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>Employement Date</label>
+            @Html.ValidationMessageFor(x => x.employementDate, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.employementDate, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            @Html.ValidationMessageFor(x => x.address, "", new { @class = "error" })
+            @Html.TextAreaFor(x => x.address, new { @class = "form-control", @rows = "2" })
+        </div>
+
+        <div class="form-group">
+            <label>City</label>
+            @Html.ValidationMessageFor(x => x.city, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.city, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>State</label>
+            @Html.ValidationMessageFor(x => x.state, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.state, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label>Country</label>
+            @Html.ValidationMessageFor(x => x.country, "", new { @class = "error" })
+            @Html.TextBoxFor(x => x.country, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-danger">Cancel</button>
+        </div>
+
+    </div>
+
+}
+

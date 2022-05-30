@@ -1,0 +1,49 @@
+﻿@model List<mvcEmployee.Context.emplDetail>
+@{
+    ViewBag.Title = "EmployeeList";
+}
+
+<style>
+    th, td {
+        padding: 15px;
+    }
+</style>
+
+<table class=" table-hover">
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Birth Date</th>
+        <th>Email</th>
+        <th>Employement Date</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Country</th>
+
+    </tr>
+
+    @foreach (var item in Model)
+
+    {
+        <tr>
+            <td>@item.firstName</td>
+            <td>@item.lastName</td>
+            <td>@item.birthDate</td>
+            <td>@item.email</td>
+            <td>@item.employementDate</td>
+            <td>@item.address</td>
+            <td>@item.city</td>
+            <td>@item.state</td>
+            <td>@item.country</td>
+            <td>
+
+                <a href="@Url.Action("Employee",new {item.firstName,item.lastName,item.empId,item.birthDate,item.email,item.employementDate,item.address,item.city,item.state,item.country })" class="btn btn-success">Edit</a>
+                <a href="@Url.Action("Delete","Employee",new{id=item.empId })" class="btn btn-danger">Delete</a>
+                
+            </td>
+        </tr>
+    }
+
+</table>
+
